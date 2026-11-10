@@ -1,6 +1,3 @@
-#ifndef GRAPH_H
-#define GRAPH_H
-
 #include "matakuliah.h"
 #include <queue>
 #include <unordered_map>
@@ -168,4 +165,22 @@ inline void menuValidasiRencana(const vector<MataKuliah>& data) {
         cout << "Rencana TIDAK valid.\n";
 }
 
-#endif
+// Menu graph: dipanggil dari main.cpp (menu 7).
+void menuGraph(vector<MataKuliah>& data) {
+    int pil;
+    do {
+        cout << "\n--- MENU GRAPH DAN VALIDASI PRASYARAT ---\n";
+        cout << "1. Urutan pengambilan (topological sort + deteksi siklus)\n";
+        cout << "2. Validasi rencana urutan pengambilan\n";
+        cout << "0. Kembali\n";
+        pil = bacaAngka("Pilih: ");
+
+        if (pil == 1) {
+            menuTopologicalSort(data);
+        } else if (pil == 2) {
+            menuValidasiRencana(data);
+        } else if (pil != 0) {
+            cout << "Menu tidak valid.\n";
+        }
+    } while (pil != 0);
+}
