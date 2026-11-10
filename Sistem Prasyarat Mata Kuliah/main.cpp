@@ -1,10 +1,5 @@
 #include "matakuliah.h"
 
-//nanti ganti kalau udah punya kalian
-void menuSorting(vector<MataKuliah>& data)   { cout << "Fitur sorting belum diimplementasi.\n"; }
-void menuSearching(vector<MataKuliah>& data) { cout << "Fitur searching belum diimplementasi.\n"; }
-void menuGraph(vector<MataKuliah>& data)     { cout << "Fitur graph belum diimplementasi.\n"; }
-
 int main() {
     vector<MataKuliah> data = dataAwal();
     int pilihan;
