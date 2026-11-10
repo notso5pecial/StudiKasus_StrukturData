@@ -1,17 +1,5 @@
-#include <iostream>
-#include <vector>
-#include <string>
+#include "matakuliah.h"
 #include <iomanip>
-
-using namespace std;
-
-struct MataKuliah {
-    string kode;
-    string nama;
-    int sks;
-    int semester;
-    string prasyarat;
-};
 
 // Return true kalau a harus di depan b
 bool compareMultiKey(const MataKuliah& a, const MataKuliah& b) {
@@ -91,62 +79,62 @@ void sortKodeForBinarySearch(vector<MataKuliah>& data) {
     }
 }
 
+static string gabungPr(const vector<string>& pr) {
+    if (pr.empty()) return "-";
+    string hasil;
+    for (size_t i = 0; i < pr.size(); i++) {
+        if (i > 0) hasil += ", ";
+        hasil += pr[i];
+    }
+    return hasil;
+}
+
 void cetakData(const vector<MataKuliah>& data) {
-    cout << left << setw(8) << "Kode" 
-         << setw(35) << "Nama Mata Kuliah" 
-         << setw(6) << "SKS" 
-         << setw(10) << "Semester" 
+    cout << left << setw(8) << "Kode"
+         << setw(35) << "Nama Mata Kuliah"
+         << setw(6) << "SKS"
+         << setw(10) << "Semester"
          << setw(12) << "Prasyarat" << endl;
     cout << string(71, '-') << endl;
     for (const auto& mk : data) {
-        cout << left << setw(8) << mk.kode 
-             << setw(35) << mk.nama 
-             << setw(6) << mk.sks 
-             << setw(10) << mk.semester 
-             << setw(12) << (mk.prasyarat.empty() ? "-" : mk.prasyarat) << endl;
+        cout << left << setw(8) << mk.kode
+             << setw(35) << mk.nama
+             << setw(6) << mk.sks
+             << setw(10) << mk.semester
+             << setw(12) << gabungPr(mk.prasyarat) << endl;
     }
     cout << endl;
 }
 
-int main() {
-    vector<MataKuliah> dataset = {
-        {"IF101", "Algoritma dan Pemrograman", 3, 1, ""},
-        {"IF102", "Matematika Diskrit", 3, 1, ""},
-        {"IF103", "Kalkulus", 3, 1, ""},
-        {"IF104", "Pengantar Teknologi Informasi", 2, 1, ""},
-        {"IF201", "Struktur Data", 3, 2, "IF101"},
-        {"IF202", "Basis Data", 3, 2, "IF101"},
-        {"IF203", "Aljabar Linear", 3, 2, "IF103"},
-        {"IF204", "Sistem Digital", 2, 2, ""},
-        {"IF301", "Algoritma Lanjut", 3, 3, "IF201"},
-        {"IF302", "Pemrograman Berorientasi Objek", 3, 3, "IF201"},
-        {"IF303", "Sistem Operasi", 3, 3, "IF201"},
-        {"IF304", "Statistika", 3, 3, "IF103"},
-        {"IF401", "Analisis Algoritma", 3, 4, "IF301"},
-        {"IF402", "Jaringan Komputer", 3, 4, "IF303"},
-        {"IF403", "Rekayasa Perangkat Lunak", 3, 4, "IF302"}
-    };
+// Menu sorting: dipanggil dari main.cpp (menu 5).
+// Yang diurutkan salinan data, jadi urutan data asli tidak berubah.
+void menuSorting(vector<MataKuliah>& data) {
+    int pil;
+    do {
+        cout << "\n--- MENU SORTING ---\n";
+        cout << "1. Insertion Sort (Semester -> SKS)\n";
+        cout << "2. Merge Sort (Semester -> SKS)\n";
+        cout << "3. Urutkan berdasarkan kode\n";
+        cout << "0. Kembali\n";
+        pil = bacaAngka("Pilih: ");
 
-    cout << "=== DATA SEBELUM SORTING ===" << endl;
-    cetakData(dataset);
-
-    // uji Insertion Sort
-    vector<MataKuliah> dataInsertion = dataset;
-    insertionSortMultiKey(dataInsertion);
-    cout << "=== HASIL INSERTION SORT (Semester -> SKS) ===" << endl;
-    cetakData(dataInsertion);
-
-    // uji Merge Sort
-    vector<MataKuliah> dataMerge = dataset;
-    mergeSortMultiKey(dataMerge, 0, dataMerge.size() - 1);
-    cout << "=== HASIL MERGE SORT (Semester -> SKS) ===" << endl;
-    cetakData(dataMerge);
-
-    // Sorting berdasarkan kode untuk Binary Search
-    vector<MataKuliah> dataKode = dataset;
-    sortKodeForBinarySearch(dataKode);
-    cout << "=== HASIL SORT BY KODE (Untuk Binary Search Orang 3) ===" << endl;
-    cetakData(dataKode);
-
-    return 0;
+        if (pil == 1) {
+            vector<MataKuliah> salinan = data;
+            insertionSortMultiKey(salinan);
+            cout << "=== HASIL INSERTION SORT (Semester -> SKS) ===" << endl;
+            cetakData(salinan);
+        } else if (pil == 2) {
+            vector<MataKuliah> salinan = data;
+            if (!salinan.empty()) mergeSortMultiKey(salinan, 0, (int)salinan.size() - 1);
+            cout << "=== HASIL MERGE SORT (Semester -> SKS) ===" << endl;
+            cetakData(salinan);
+        } else if (pil == 3) {
+            vector<MataKuliah> salinan = data;
+            sortKodeForBinarySearch(salinan);
+            cout << "=== HASIL SORT BY KODE ===" << endl;
+            cetakData(salinan);
+        } else if (pil != 0) {
+            cout << "Menu tidak valid.\n";
+        }
+    } while (pil != 0);
 }
