@@ -94,7 +94,7 @@ public:
         return true;
     }
 
-    // Untuk Orang 3: prasyarat langsung
+    
     vector<string> prasyaratLangsung(const string& k) const {
         vector<string> hasil;
         auto it = idx.find(k);
@@ -103,7 +103,7 @@ public:
         return hasil;
     }
 
-    // Untuk Orang 3: semua prasyarat (langsung + tidak langsung), BFS di graph terbalik
+    
     vector<string> semuaPrasyarat(const string& k) const {
         vector<string> hasil;
         auto it = idx.find(k);
