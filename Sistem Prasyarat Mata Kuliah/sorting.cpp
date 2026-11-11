@@ -65,7 +65,7 @@ void mergeSortMultiKey(vector<MataKuliah>& data, int left, int right) {
     }
 }
 
-// 3. SORT BY KODE (Untuk Binary Search Orang 3)
+// 3. SORT BY KODE (Untuk Binary Search)
 void sortKodeForBinarySearch(vector<MataKuliah>& data) {
     int n = data.size();
     for (int i = 1; i < n; i++) {
